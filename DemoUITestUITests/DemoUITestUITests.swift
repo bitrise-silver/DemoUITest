@@ -25,7 +25,7 @@ final class DemoUITestUITests: XCTestCase {
     func failingUITest() {
         let app = XCUIApplication()
         app.launch()
-        sleep(50)
+        sleep(10)
         XCTAssert(false)
     }
 
