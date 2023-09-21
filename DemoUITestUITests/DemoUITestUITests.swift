@@ -22,13 +22,71 @@ final class DemoUITestUITests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
 
-    func testExample() throws {
-        // UI tests must launch the application that they test.
+    func failingUITest() {
         let app = XCUIApplication()
         app.launch()
-
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+        sleep(50)
         XCTAssert(false)
+    }
+
+    func testExample1() throws {
+        failingUITest()
+    }
+
+    func testExample2() throws {
+        failingUITest()
+    }
+
+    func testExample3() throws {
+        failingUITest()
+    }
+
+    func testExample4() throws {
+        failingUITest()
+    }
+
+    func testExample5() throws {
+        failingUITest()
+    }
+
+    func testExample6() throws {
+        failingUITest()
+    }
+
+    func testExample7() throws {
+        failingUITest()
+    }
+
+    func testExample8() throws {
+        failingUITest()
+    }
+
+    func testExample9() throws {
+        failingUITest()
+    }
+
+    func testExample10() throws {
+        failingUITest()
+    }
+
+    func testExample11() throws {
+        failingUITest()
+    }
+
+    func testExample12() throws {
+        failingUITest()
+    }
+
+    func testExample13() throws {
+        failingUITest()
+    }
+
+    func testExample14() throws {
+        failingUITest()
+    }
+
+    func testExample15() throws {
+        failingUITest()
     }
 
     func testLaunchPerformance() throws {
