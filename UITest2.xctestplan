@@ -1,0 +1,27 @@
+{
+  "configurations" : [
+    {
+      "id" : "7206626F-20AD-4DCB-9E49-AD4FBD4376AA",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+
+  },
+  "testTargets" : [
+    {
+      "skippedTests" : [
+        "UITests1"
+      ],
+      "target" : {
+        "containerPath" : "container:DemoUITest.xcodeproj",
+        "identifier" : "BEAE54FD2ABC3D1C00D5B2C5",
+        "name" : "DemoUITestUITests"
+      }
+    }
+  ],
+  "version" : 1
+}
