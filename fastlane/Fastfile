@@ -1,0 +1,27 @@
+default_platform(:ios)
+
+platform :ios do
+  lane :build do
+    scan(
+      project: "DemoUITest.xcodeproj",
+      scheme: "DemoUITest",
+      derived_data_path: "fastlane_cache",
+      build_for_testing: true,
+      skip_build: true,
+      device: "iPhone 15 (17.0.1)"
+    )
+  end
+  lane :test do
+    scan(
+      project: "DemoUITest.xcodeproj",
+      scheme: "DemoUITest",
+      derived_data_path: "fastlane_cache",
+      test_without_building: true,
+      skip_build: true,
+      device: "iPhone 15 (17.0.1)",
+      testplan: ENV["TEST_SUITE"],
+      output_types: "",
+      result_bundle: true
+    )
+  end
+end

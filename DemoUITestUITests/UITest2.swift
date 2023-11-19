@@ -15,18 +15,23 @@ final class UITests2: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
 
-    func failingUITest() {
+    func simpleUITest() {
         let app = XCUIApplication()
         app.launch()
         sleep(2)
-        XCTAssert(false)
+    }
+
+    func testExampleBasic() throws {
+        let x = 1
+        let y = 2
+        assert(x + y == 3)
     }
 
     func testExample3() throws {
-        failingUITest()
+        simpleUITest()
     }
 
     func testExample4() throws {
-        failingUITest()
+        simpleUITest()
     }
 }
