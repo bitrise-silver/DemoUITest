@@ -1,0 +1,104 @@
+---
+format_version: '13'
+default_step_lib_source: https://github.com/bitrise-io/bitrise-steplib.git
+project_type: ios
+pipelines:
+  pipeline-test:
+    stages:
+    - stage-build: {}
+    - stage-test-fanout: {}
+stages:
+  stage-build:
+    workflows:
+    - build: {}
+  stage-test-fanout:
+    workflows:
+    - test-1: {}
+    - test-2: {}
+workflows:
+  _run_tests:
+    steps:
+    - git-clone@8: {}
+    - pull-intermediate-files@1:
+        inputs:
+        - verbose: 'true'
+    - script@1:
+        inputs:
+        - content: |-
+            #!/usr/bin/env bash
+            # fail if any commands fails
+            set -e
+            # make pipelines' return status equal the last command to exit with a non-zero status, or zero if all commands exit successfully
+            set -o pipefail
+            # debug log
+            set -x
+
+            asdf install ruby 3.2.2
+            asdf global ruby 3.2.2
+            mv $TEST_BUILD_DIR .
+    - fastlane@3:
+        inputs:
+        - lane: test
+    - generate-xcode-html-report@1:
+        inputs:
+        - verbose: 'true'
+        - xcresult_patterns: fastlane/test_output/*.xcresult
+        is_always_run: true
+    - deploy-to-bitrise-io@2: {}
+  build:
+    steps:
+    - git-clone@8: {}
+    - script@1:
+        inputs:
+        - content: |-
+            #!/usr/bin/env bash
+            # fail if any commands fails
+            set -e
+            # make pipelines' return status equal the last command to exit with a non-zero status, or zero if all commands exit successfully
+            set -o pipefail
+            # debug log
+            set -x
+
+            asdf install ruby 3.2.2
+            asdf global ruby 3.2.2
+    - restore-cache@1:
+        inputs:
+        - key: fastlane-cache-{{.Branch}}
+        - verbose: 'true'
+    - fastlane@3:
+        inputs:
+        - verbose_log: 'yes'
+        - lane: build
+    - save-cache@1:
+        inputs:
+        - paths: fastlane_cache
+        - verbose: 'true'
+        - key: fastlane-cache-{{.Branch}}
+    - deploy-to-bitrise-io@2:
+        inputs:
+        - pipeline_intermediate_files: fastlane_cache:TEST_BUILD_DIR
+  test-1:
+    before_run:
+    - _run_tests
+    envs:
+    - TEST_PLAN: UITest1
+  test-2:
+    before_run:
+    - _run_tests
+    envs:
+    - TEST_PLAN: UITest2
+meta:
+  bitrise.io:
+    stack: osx-xcode-15.0.x
+    machine_type_id: g2-m1-max.10core
+app:
+  envs:
+  - opts:
+      is_expand: false
+    BITRISE_PROJECT_PATH: DemoUITest.xcodeproj
+  - opts:
+      is_expand: false
+    BITRISE_SCHEME: DemoUITest
+  - opts:
+      is_expand: false
+    BITRISE_DISTRIBUTION_METHOD: development
